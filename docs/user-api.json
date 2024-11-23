@@ -1,0 +1,679 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "User API",
+        "description": "User API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000"
+        }
+    ],
+    "paths": {
+        "/api/users": {
+            "post": {
+                "tags": ["user"],
+                "description": "Register new user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["name", "password", "username"],
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "username": "andika@gmail.com",
+                                "password": "rahasia",
+                                "name": "Andika Fadilla Siagian"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success register user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "username": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "data": {
+                                        "id": 1,
+                                        "username": "andika@gmail.com",
+                                        "name": "Andika Fadilla Siagian"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "errors": {
+                                        "username": [
+                                            "username must not be blank",
+                                            "Username min 6 characters"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/login": {
+            "post": {
+                "tags": ["user"],
+                "description": "Login user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "username": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "token": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/current": {
+            "get": {
+                "tags": ["user"],
+                "description": "Get current user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success get current user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "username": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["user"],
+                "description": "Update current user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update current user",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success update user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "username": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/logout": {
+            "delete": {
+                "tags": ["user"],
+                "description": "Logout current user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success logout user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products": {
+            "post": {
+                "tags": ["Products"],
+                "description": "Add a new product",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "title",
+                                    "category_id",
+                                    "price",
+                                    "stock",
+                                    "brand",
+                                    "foto"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "category_id": {
+                                        "type": "integer"
+                                    },
+                                    "price": {
+                                        "type": "integer"
+                                    },
+                                    "stock": {
+                                        "type": "integer"
+                                    },
+                                    "brand": {
+                                        "type": "string"
+                                    },
+                                    "berat": {
+                                        "type": "integer"
+                                    },
+                                    "satuan": {
+                                        "type": "string"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string"
+                                    },
+                                    "foto": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "title": "Meja Kayu",
+                                "category_id": 1,
+                                "price": 1500000,
+                                "stock": 10,
+                                "brand": "Envi",
+                                "berat": 1,
+                                "satuan": "Kg",
+                                "deskripsi": "Cat berwarna kuning dan tahan lama",
+                                "foto": "cat.jpeg"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Customer added successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "id": 1,
+                                    "title": "Meja Kayu",
+                                    "category_id": 1,
+                                    "price": 1500000,
+                                    "stock": 10,
+                                    "brand": "Envi",
+                                    "berat": 1,
+                                    "satuan": "Kg",
+                                    "deskripsi": "Cat berwarna kuning dan tahan lama",
+                                    "foto": "cat.jpeg",
+                                    "created_at": "2024-11-22 14:00:00",
+                                    "updated_at": "2024-11-22 14:00:00"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Products"],
+                "description": "Get a list of all products",
+                "responses": {
+                    "200": {
+                        "description": "List of products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            },
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "category_id": {
+                                                "type": "integer"
+                                            },
+                                            "price": {
+                                                "type": "integer"
+                                            },
+                                            "stock": {
+                                                "type": "integer"
+                                            },
+                                            "brand": {
+                                                "type": "string"
+                                            },
+                                            "berat": {
+                                                "type": "integer"
+                                            },
+                                            "satuan": {
+                                                "type": "string"
+                                            },
+                                            "deskripsi": {
+                                                "type": "string"
+                                            },
+                                            "foto": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": [
+                                    {
+                                        "id": 1,
+                                        "title": "Meja Kayu",
+                                        "category_id": 1,
+                                        "price": 1500000,
+                                        "stock": 10,
+                                        "brand": "Envi",
+                                        "berat": 1,
+                                        "satuan": "Kg",
+                                        "deskripsi": "Cat berwarna kuning dan tahan lama",
+                                        "foto": "cat.jpeg",
+                                        "created_at": "2024-11-22 14:00:00",
+                                        "updated_at": "2024-11-22 14:00:00"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/{id}": {
+            "get": {
+                "tags": ["Products"],
+                "description": "Get details of a specific product",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "category_id": {
+                                            "type": "integer"
+                                        },
+                                        "price": {
+                                            "type": "integer"
+                                        },
+                                        "stock": {
+                                            "type": "integer"
+                                        },
+                                        "brand": {
+                                            "type": "string"
+                                        },
+                                        "berat": {
+                                            "type": "integer"
+                                        },
+                                        "satuan": {
+                                            "type": "string"
+                                        },
+                                        "deskripsi": {
+                                            "type": "string"
+                                        },
+                                        "foto": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "id": 1,
+                                    "title": "Meja Kayu",
+                                    "category_id": 1,
+                                    "price": 1500000,
+                                    "stock": 10,
+                                    "brand": "Envi",
+                                    "berat": 1,
+                                    "satuan": "Kg",
+                                    "deskripsi": "Cat berwarna kuning dan tahan lama",
+                                    "foto": "cat.jpeg",
+                                    "created_at": "2024-11-22 14:00:00",
+                                    "updated_at": "2024-11-22 14:00:00"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders": {
+            "post": {
+                "tags": ["Orders"],
+                "description": "Create a new order",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["customer_id", "items"],
+                                "properties": {
+                                    "customer_id": { "type": "number" },
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "product_id": {
+                                                    "type": "number"
+                                                },
+                                                "quantity": { "type": "number" }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "example": {
+                                "customer_id": 1,
+                                "items": [
+                                    {
+                                        "product_id": 1,
+                                        "quantity": 2
+                                    },
+                                    {
+                                        "product_id": 2,
+                                        "quantity": 5
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "order_id": { "type": "number" },
+                                        "customer_id": { "type": "number" },
+                                        "status": { "type": "string" },
+                                        "total_price": { "type": "number" },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "product_id": {
+                                                        "type": "number"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "number"
+                                                    },
+                                                    "price": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "order_id": 123,
+                                    "customer_id": 1,
+                                    "status": "pending",
+                                    "total_price": 2000000,
+                                    "items": [
+                                        {
+                                            "product_id": 1,
+                                            "quantity": 2,
+                                            "price": 1500000
+                                        },
+                                        {
+                                            "product_id": 2,
+                                            "quantity": 5,
+                                            "price": 50000
+                                        }
+                                    ],
+                                    "created_at": "2024-11-22 14:00:00",
+                                    "updated_at": "2024-11-22 14:00:00"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Orders"],
+                "description": "Get all orders (admin only)",
+                "responses": {
+                    "200": {
+                        "description": "List of all orders",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "order_id": { "type": "number" },
+                                            "customer_id": { "type": "number" },
+                                            "status": { "type": "string" },
+                                            "total_price": { "type": "number" },
+                                            "items": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "product_id": {
+                                                            "type": "number"
+                                                        },
+                                                        "quantity": {
+                                                            "type": "number"
+                                                        },
+                                                        "price": {
+                                                            "type": "number"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": [
+                                    {
+                                        "order_id": 123,
+                                        "customer_id": 1,
+                                        "status": "pending",
+                                        "total_price": 2000000,
+                                        "items": [
+                                            {
+                                                "product_id": 1,
+                                                "quantity": 2,
+                                                "price": 1500000
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

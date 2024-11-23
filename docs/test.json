@@ -1,0 +1,1289 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "GIS API Specification",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Nafi Beckhamsyah Siahaan",
+            "email": "nafbeckhshn@gmail.com",
+            "url": "https://github.com/nafbeckh"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:5000"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": ["users"],
+                "summary": "Register a user account",
+                "requestBody": {
+                    "description": "User Payload",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "\"username\" is not allowed to be empty"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": ["users"],
+                "summary": "Returns a user",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/user_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unautorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/Unautorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/authentications": {
+            "post": {
+                "tags": ["authentications"],
+                "summary": "Generate access token",
+                "requestBody": {
+                    "description": "Authentication Payload",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthenticationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Authentication"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/Authentication"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "\"username\" is not allowed to be empty"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unautorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "Kredensial yang Anda berikan salah"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": ["authentications"],
+                "summary": "Updates access token",
+                "requestBody": {
+                    "description": "Authentication Payload",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "refreshToken": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RefreshToken"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "message": "Refresh token berhasil dihapus"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "Refresh token tidak valid"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["authentications"],
+                "summary": "Generate access token",
+                "requestBody": {
+                    "description": "Authentication Payload",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "refreshToken": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RefreshToken"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IktUMFdsbVRSeVdZRE9KcFMiLCJpYXQiOjE2OTUxMTA5MDF9.oPi_d3FyO69a4WXAy_kTHhCaHhHA1svsOw3pJGrJQuc"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "Refresh token tidak valid"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/offices": {
+            "post": {
+                "security": [
+                    {
+                        "gisAuth": []
+                    }
+                ],
+                "tags": ["offices"],
+                "summary": "Creates a new office",
+                "requestBody": {
+                    "description": "Office Payload",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OfficeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Office"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/Office"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "\"name\" is not allowed to be empty"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unautorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/Unautorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["offices"],
+                "summary": "Returns list of offices",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Office"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "$ref": "#/components/examples/Office/value"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/offices/{id}": {
+            "get": {
+                "tags": ["offices"],
+                "summary": "Returns an office",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/office_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Office"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/Office"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "Kantor tidak ditemukan"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "gisAuth": []
+                    }
+                ],
+                "tags": ["offices"],
+                "summary": "Updates an office",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/office_id"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Office payload",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OfficeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessMessage"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "success",
+                                            "message": "Kantor berhasil diperbarui"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "\"name\" is not allowed to be empty"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unautorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/Unautorized"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "Kantor tidak ditemukan"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "gisAuth": []
+                    }
+                ],
+                "tags": ["offices"],
+                "summary": "Deletes an office",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/office_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessMessage"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "success",
+                                            "message": "Kantor berhasil dihapus"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unautorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/Unautorized"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "Kantor tidak ditemukan"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/outlets": {
+            "post": {
+                "security": [
+                    {
+                        "gisAuth": []
+                    }
+                ],
+                "tags": ["outlets"],
+                "summary": "Creates a new outlet",
+                "requestBody": {
+                    "description": "Outlet Payload",
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OutletRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Outlet"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/Outlet"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "\"name\" is not allowed to be empty"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unautorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/Unautorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["search"],
+                "summary": "Serch outlets by name",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Outlet"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "totalCount": 1,
+                                            "$ref": "#/components/examples/Outlets/value"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/outlets/{id}": {
+            "get": {
+                "tags": ["outlets"],
+                "summary": "Returns an outlet",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/outlet_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Outlet"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/Outlet"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "Gerai tidak ditemukan"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "gisAuth": []
+                    }
+                ],
+                "tags": ["outlets"],
+                "summary": "Updates an outlet",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/outlet_id"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Outlet payload",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OutletNoImage"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OutletRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessMessage"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "success",
+                                            "message": "Gerai berhasil diperbarui"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "\"name\" is not allowed to be empty"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unautorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/Unautorized"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "Gerai tidak ditemukan"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "gisAuth": []
+                    }
+                ],
+                "tags": ["outlets"],
+                "summary": "Deletes an outlet",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/outlet_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessMessage"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "success",
+                                            "message": "Gerai berhasil dihapus"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unautorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "$ref": "#/components/examples/Unautorized"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "examples": {
+                                    "default": {
+                                        "value": {
+                                            "status": "fail",
+                                            "message": "Gerai tidak ditemukan"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "gisAuth": {
+                "description": "Authentication for GIS RESTful API",
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "parameters": {
+            "user_id": {
+                "in": "path",
+                "name": "id",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "kXiTOYP6Ib9raXD8"
+                }
+            },
+            "office_id": {
+                "in": "path",
+                "name": "id",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "Fqkaw2n28DpaXNjk"
+                }
+            },
+            "outlet_id": {
+                "in": "path",
+                "name": "id",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "J7PNZDNWx_bHVQKx"
+                }
+            },
+            "name": {
+                "in": "query",
+                "name": "name",
+                "schema": {
+                    "type": "string",
+                    "example": "some name"
+                }
+            }
+        },
+        "schemas": {
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "SuccessMessage": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserRequest": {
+                "type": "object",
+                "required": ["username", "password", "name"],
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "user identifier"
+                    },
+                    "username": {
+                        "type": "string",
+                        "description": "Unique username"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "User full name"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "description": "Created timestamp"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "description": "Updated timestamp"
+                    }
+                }
+            },
+            "AuthenticationRequest": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Authentication": {
+                "type": "object",
+                "properties": {
+                    "accessToken": {
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RefreshToken": {
+                "type": "object",
+                "required": ["refreshToken"],
+                "properties": {
+                    "refreshToken": {
+                        "type": "string"
+                    }
+                }
+            },
+            "OfficeRequest": {
+                "type": "object",
+                "required": ["name", "address"],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Office": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Office identifier"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Office full name"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "Office address"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "description": "Created timestamp"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "description": "Updated timestamp"
+                    }
+                }
+            },
+            "OutletRequest": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "address",
+                    "serviceType",
+                    "description",
+                    "latitude",
+                    "longitude",
+                    "image",
+                    "officeId"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "serviceType": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "latitude": {
+                        "type": "number"
+                    },
+                    "longitude": {
+                        "type": "number"
+                    },
+                    "image": {
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "officeId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "OutletNoImage": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "address",
+                    "serviceType",
+                    "description",
+                    "latitude",
+                    "longitude",
+                    "officeId"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "serviceType": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "latitude": {
+                        "type": "number"
+                    },
+                    "longitude": {
+                        "type": "number"
+                    },
+                    "officeId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Outlet": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Outlet identifier"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Outlet full name"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "Outlet address"
+                    },
+                    "serviceType": {
+                        "type": "string",
+                        "description": "Outlet type"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Outlet description"
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "description": "Outlet latitude"
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "description": "Outlet longitude"
+                    },
+                    "image": {
+                        "type": "string",
+                        "format": "binary",
+                        "description": "Outlet image"
+                    },
+                    "office_id": {
+                        "type": "string",
+                        "description": "Outlet office"
+                    },
+                    "user_id": {
+                        "type": "string",
+                        "description": "User Id"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "description": "Created timestamp"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "description": "Updated timestamp"
+                    }
+                }
+            }
+        },
+        "examples": {
+            "Unautorized": {
+                "value": {
+                    "status": "fail",
+                    "message": "Missing authentication"
+                }
+            },
+            "User": {
+                "value": {
+                    "id": "kXiTOYP6Ib9raXD8",
+                    "username": "someUsername",
+                    "name": "Some Name",
+                    "created_at": "2023-09-19 10:00:00 +0000",
+                    "updated_at": "2023-09-19 10:00:00 +0000"
+                }
+            },
+            "Authentication": {
+                "value": {
+                    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImdMZ2VURjFSMHltVThMYzUiLCJpYXQiOjE2OTUwOTk4ODh9.uvKIy4kuZXL6GT3RCyj9bjxtESV9WR65WlXwss8_0gI",
+                    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImdMZ2VURjFSMHltVThMYzUiLCJpYXQiOjE2OTUwOTk4ODh9.K_An9zuDs0q_FjvCo0CnhH7dywsicL6Ba0xmNVUL_jY"
+                }
+            },
+            "Office": {
+                "value": {
+                    "id": "Fqkaw2n28DpaXNjk",
+                    "name": "Some Office Name",
+                    "address": "Some Office Address",
+                    "created_at": "2023-09-20 10:16:00 +0000",
+                    "updated_at": "2023-09-20 10:16:00 +0000"
+                }
+            },
+            "Outlets": {
+                "value": {
+                    "id": "2WlG0rGcy4zYgEVC",
+                    "name": "Some Outlet Name",
+                    "address": "Some Outlet Address",
+                    "service_type": "Service Type",
+                    "description": "Some description",
+                    "latitude": 3.1239,
+                    "longitude": 98.29382,
+                    "image_url": "http://localhost:5000/outlets/file/images/128504582pic.jpeg",
+                    "office_id": "Fqkaw2n28DpaXNjk",
+                    "user_id": "FRNHhevyxS6XLOD_",
+                    "created_at": "2023-09-27 10:16:00 +0000",
+                    "updated_at": "2023-09-27 10:16:00 +0000"
+                }
+            },
+            "Outlet": {
+                "value": {
+                    "id": "2WlG0rGcy4zYgEVC",
+                    "name": "Some Outlet Name",
+                    "address": "Some Outlet Address",
+                    "service_type": "Service Type",
+                    "description": "Some description",
+                    "latitude": 3.1239,
+                    "longitude": 98.29382,
+                    "image_url": "http://localhost:5000/outlets/file/images/128504582pic.jpeg",
+                    "office_id": "Fqkaw2n28DpaXNjk",
+                    "office": {
+                        "name": "Some Office Name",
+                        "address": "Some Office Address"
+                    },
+                    "user_id": "FRNHhevyxS6XLOD_",
+                    "user": {
+                        "name": "Some Name"
+                    },
+                    "created_at": "2023-09-27 10:16:00 +0000",
+                    "updated_at": "2023-09-27 10:16:00 +0000"
+                }
+            }
+        }
+    }
+}
