@@ -25,6 +25,11 @@ class Product extends Model
         'foto',
     ];
 
+    public function category()
+    {
+        return $this->hasOne(Category::class, 'category_id');
+    }
+
     // Relasi dengan OrderItem
     public function orderItems()
     {

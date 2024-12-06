@@ -93,7 +93,7 @@
                 }
             }
         },
-        "/api/users/login": {
+            "/api/users/login": {
             "post": {
                 "tags": ["user"],
                 "description": "Login user",

@@ -22,7 +22,10 @@ return new class extends Migration
             $table->string('satuan', 50)->nullable();
             $table->text('deskripsi')->nullable();
             $table->string('foto', 255);
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
