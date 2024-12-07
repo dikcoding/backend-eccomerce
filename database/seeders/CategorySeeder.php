@@ -15,6 +15,6 @@ class CategorySeeder extends Seeder
             'nama' => 'test',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-        ]);
+        ]); 
     }
 }

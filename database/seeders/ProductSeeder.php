@@ -4,12 +4,15 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Product; // Import model Product
+use App\Models\User;
 use Carbon\Carbon; // Untuk format tanggal
+
 
 class ProductSeeder extends Seeder
 {
     public function run(): void
     {
+        $user = User::where('username', 'test')->first();
         Product::create([
             'title' => 'Meja Kayu',
             'category_id' => 1,
@@ -22,7 +25,7 @@ class ProductSeeder extends Seeder
             'foto' => 'cat.jpeg',
             'user_id' => 1,
             'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ]);
     }
 }

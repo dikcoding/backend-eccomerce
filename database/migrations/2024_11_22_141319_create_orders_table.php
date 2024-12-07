@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->string('status', 50)->default('pending');
             $table->timestamps();
-            $table->foreign('customer_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('customer_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
