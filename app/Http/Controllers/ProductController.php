@@ -60,4 +60,23 @@ class ProductController extends Controller
 
         return new ProductResource($product);
     }
+
+    public function delete(int $id): JsonResponse
+    {
+        $product = Product::where('id', $id)->first();
+        if (!$product) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    "message" => [
+                        "not found"
+                    ]
+                ]
+            ])->setStatusCode(404));
+        }
+
+        $product->delete();
+        return response()->json([
+            'data' => true
+        ])->setStatusCode(200);
+    }
 }
