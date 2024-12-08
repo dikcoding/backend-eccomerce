@@ -93,7 +93,7 @@
                 }
             }
         },
-            "/api/users/login": {
+        "/api/users/login": {
             "post": {
                 "tags": ["user"],
                 "description": "Login user",
@@ -437,80 +437,6 @@
                 }
             }
         },
-        "/api/products/{id}": {
-            "get": {
-                "tags": ["Products"],
-                "description": "Get details of a specific product",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Product details",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "number"
-                                        },
-                                        "title": {
-                                            "type": "string"
-                                        },
-                                        "category_id": {
-                                            "type": "integer"
-                                        },
-                                        "price": {
-                                            "type": "integer"
-                                        },
-                                        "stock": {
-                                            "type": "integer"
-                                        },
-                                        "brand": {
-                                            "type": "string"
-                                        },
-                                        "berat": {
-                                            "type": "integer"
-                                        },
-                                        "satuan": {
-                                            "type": "string"
-                                        },
-                                        "deskripsi": {
-                                            "type": "string"
-                                        },
-                                        "foto": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "example": {
-                                    "id": 1,
-                                    "title": "Meja Kayu",
-                                    "category_id": 1,
-                                    "price": 1500000,
-                                    "stock": 10,
-                                    "brand": "Envi",
-                                    "berat": 1,
-                                    "satuan": "Kg",
-                                    "deskripsi": "Cat berwarna kuning dan tahan lama",
-                                    "foto": "cat.jpeg",
-                                    "created_at": "2024-11-22 14:00:00",
-                                    "updated_at": "2024-11-22 14:00:00"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/orders": {
             "post": {
                 "tags": ["Orders"],
@@ -562,7 +488,14 @@
                                     "type": "object",
                                     "properties": {
                                         "order_id": { "type": "number" },
-                                        "customer_id": { "type": "number" },
+                                        "customer": {
+                                            "type": "object",
+                                            "properties": {
+                                                "user_id": { "type": "number" },
+                                                "name": { "type": "string" },
+                                                "email": { "type": "string" }
+                                            }
+                                        },
                                         "status": { "type": "string" },
                                         "total_price": { "type": "number" },
                                         "created_at": {
@@ -594,19 +527,24 @@
                                 },
                                 "example": {
                                     "order_id": 123,
-                                    "customer_id": 1,
+                                    "customer": {
+                                        "user_id": 1,
+                                        "name": "andika",
+                                        "email": "andika@gmail.com"
+                                    },
                                     "status": "pending",
                                     "total_price": 2000000,
                                     "items": [
                                         {
                                             "product_id": 1,
                                             "quantity": 2,
-                                            "price": 1500000
-                                        },
-                                        {
-                                            "product_id": 2,
-                                            "quantity": 5,
-                                            "price": 50000
+                                            "price": 1500000,
+                                            "product": {
+                                                "product_id": 1,
+                                                "name": "Semen",
+                                                "description": "Berkualitas tinggi",
+                                                "price": 1500000
+                                            }
                                         }
                                     ],
                                     "created_at": "2024-11-22 14:00:00",
@@ -631,7 +569,20 @@
                                         "type": "object",
                                         "properties": {
                                             "order_id": { "type": "number" },
-                                            "customer_id": { "type": "number" },
+                                            "customer": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "user_id": {
+                                                        "type": "number"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "email": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
                                             "status": { "type": "string" },
                                             "total_price": { "type": "number" },
                                             "items": {
@@ -642,8 +593,11 @@
                                                         "product_id": {
                                                             "type": "number"
                                                         },
-                                                        "quantity": {
-                                                            "type": "number"
+                                                        "name": {
+                                                            "type": "string"
+                                                        },
+                                                        "description": {
+                                                            "type": "string"
                                                         },
                                                         "price": {
                                                             "type": "number"
@@ -657,14 +611,24 @@
                                 "example": [
                                     {
                                         "order_id": 123,
-                                        "customer_id": 1,
+                                        "customer": {
+                                            "user_id": 1,
+                                            "name": "andika",
+                                            "email": "andika@gmail.com"
+                                        },
                                         "status": "pending",
                                         "total_price": 2000000,
                                         "items": [
                                             {
                                                 "product_id": 1,
                                                 "quantity": 2,
-                                                "price": 1500000
+                                                "price": 1500000,
+                                                "product": {
+                                                    "product_id": 1,
+                                                    "name": "Semen",
+                                                    "description": "Berkualitas tinggi",
+                                                    "price": 1500000
+                                                }
                                             }
                                         ]
                                     }
